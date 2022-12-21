@@ -2,13 +2,24 @@ package com.dft.wps;
 
 import com.dft.wps.exception.NotFoundException;
 import com.dft.wps.exception.UnProcessableEntityException;
+import com.dft.wps.handler.JsonBodyHandler;
+import com.dft.wps.model.attribute.Attribute;
+import com.dft.wps.model.attribute.AttributeWrapper;
+import com.dft.wps.model.item.Item;
+import com.dft.wps.model.item.ItemWrapper;
+import com.dft.wps.model.order.Order;
+import com.dft.wps.model.order.OrderWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class WpsSDK {
@@ -22,6 +33,79 @@ public class WpsSDK {
     public WpsSDK(String accessToken) {
         this.accessToken = accessToken;
         client = HttpClient.newHttpClient();
+    }
+
+    public List<Item> getItems() {
+        return getPaginatedItem(null);
+    }
+
+    @SneakyThrows
+    public List<Item> getPaginatedItem(String cursor) {
+        List<Item> itemList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), "/items")
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<ItemWrapper> handler = new JsonBodyHandler<>(ItemWrapper.class);
+            ItemWrapper itemWrapper = getRequestWrapped(request, handler);
+            itemList.addAll(itemWrapper.getData());
+            cursor = itemWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return itemList;
+    }
+
+    @SneakyThrows
+    public List<Order> getOrders(String fromDate, String toDate) {
+        URIBuilder uriBuilder = baseUrl(new URIBuilder(), "/orders")
+            .addParameter("from_date", fromDate)
+            .addParameter("to_date", toDate);
+
+        HttpRequest request = get(uriBuilder);
+        HttpResponse.BodyHandler<OrderWrapper> handler = new JsonBodyHandler<>(OrderWrapper.class);
+        OrderWrapper orderWrapper = getRequestWrapped(request, handler);
+        return orderWrapper.getData();
+    }
+
+    public List<Attribute> getAttributeKeys() {
+        return getPaginatedAttributeValues(null, "attributekeys");
+    }
+
+    public List<Attribute> getAttributeValues() {
+        return getPaginatedAttributeValues(null, "attributevalues");
+    }
+
+    @SneakyThrows
+    public List<Attribute> getPaginatedAttributeValues(String cursor, String path) {
+        List<Attribute> attributeList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), "/" + path)
+                .addParameter("page[size]", "500")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<AttributeWrapper> handler = new JsonBodyHandler<>(AttributeWrapper.class);
+            AttributeWrapper attributeWrapper = getRequestWrapped(request, handler);
+            attributeList.addAll(attributeWrapper.getData());
+            cursor = attributeWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return attributeList;
+    }
+
+    private URIBuilder baseUrl(URIBuilder uriBuilder, String path) {
+        return uriBuilder
+            .setScheme("https")
+            .setHost("api.wps-inc.com")
+            .setPath(path);
+    }
+
+    @SneakyThrows
+    private HttpRequest get(URIBuilder uriBuilder) {
+        return HttpRequest.newBuilder(uriBuilder.build())
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + this.accessToken)
+            .GET()
+            .build();
     }
 
     @SneakyThrows
