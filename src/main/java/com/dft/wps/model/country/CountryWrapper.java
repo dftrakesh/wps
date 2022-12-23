@@ -1,4 +1,4 @@
-package com.dft.wps.model.order;
+package com.dft.wps.model.country;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OrderWrapper {
+public class CountryWrapper {
 
-    private Order data;
+    private Country data;
 }

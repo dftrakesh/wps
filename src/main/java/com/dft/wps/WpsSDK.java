@@ -7,12 +7,20 @@ import com.dft.wps.model.attribute.Attribute;
 import com.dft.wps.model.attribute.AttributesWrapper;
 import com.dft.wps.model.block.Block;
 import com.dft.wps.model.block.BlocksWrapper;
+import com.dft.wps.model.brand.Brand;
+import com.dft.wps.model.brand.BrandsWrapper;
+import com.dft.wps.model.country.CountriesWrapper;
+import com.dft.wps.model.country.Country;
+import com.dft.wps.model.features.Feature;
+import com.dft.wps.model.features.FeaturesWrapper;
 import com.dft.wps.model.image.Image;
 import com.dft.wps.model.image.ImagesWrapper;
 import com.dft.wps.model.item.Item;
 import com.dft.wps.model.item.ItemsWrapper;
 import com.dft.wps.model.product.Product;
 import com.dft.wps.model.product.ProductsWrapper;
+import com.dft.wps.model.vehicle.Vehicle;
+import com.dft.wps.model.vehicle.VehiclesWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.http.HttpHeaders;
@@ -122,6 +130,74 @@ public class WpsSDK {
             cursor = blocksWrapper.getMeta().getCursor().getNext();
         } while (cursor != null);
         return blockList;
+    }
+
+    @SneakyThrows
+    public List<Vehicle> getPaginatedVehicles(String cursor, String path) {
+        List<Vehicle> vehicleList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<VehiclesWrapper> handler = new JsonBodyHandler<>(VehiclesWrapper.class);
+            VehiclesWrapper vehiclesWrapper = getRequestWrapped(request, handler);
+            vehicleList.addAll(vehiclesWrapper.getData());
+            cursor = vehiclesWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return vehicleList;
+    }
+
+    @SneakyThrows
+    public List<Brand> getPaginatedBrands(String cursor, String path) {
+        List<Brand> brandList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<BrandsWrapper> handler = new JsonBodyHandler<>(BrandsWrapper.class);
+            BrandsWrapper brandsWrapper = getRequestWrapped(request, handler);
+            brandList.addAll(brandsWrapper.getData());
+            cursor = brandsWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return brandList;
+    }
+
+    @SneakyThrows
+    public List<Country> getPaginatedCountries(String cursor, String path) {
+        List<Country> countryList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<CountriesWrapper> handler = new JsonBodyHandler<>(CountriesWrapper.class);
+            CountriesWrapper countriesWrapper = getRequestWrapped(request, handler);
+            countryList.addAll(countriesWrapper.getData());
+            cursor = countriesWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return countryList;
+    }
+
+    @SneakyThrows
+    public List<Feature> getPaginatedFeatures(String cursor, String path) {
+        List<Feature> featureList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<FeaturesWrapper> handler = new JsonBodyHandler<>(FeaturesWrapper.class);
+            FeaturesWrapper featuresWrapper = getRequestWrapped(request, handler);
+            featureList.addAll(featuresWrapper.getData());
+            cursor = featuresWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return featureList;
     }
 
     protected URIBuilder baseUrl(URIBuilder uriBuilder, String path) {
