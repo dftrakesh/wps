@@ -4,11 +4,15 @@ import com.dft.wps.exception.NotFoundException;
 import com.dft.wps.exception.UnProcessableEntityException;
 import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.attribute.Attribute;
-import com.dft.wps.model.attribute.AttributeWrapper;
+import com.dft.wps.model.attribute.AttributesWrapper;
+import com.dft.wps.model.block.Block;
+import com.dft.wps.model.block.BlocksWrapper;
+import com.dft.wps.model.image.Image;
+import com.dft.wps.model.image.ImagesWrapper;
 import com.dft.wps.model.item.Item;
-import com.dft.wps.model.item.ItemWrapper;
-import com.dft.wps.model.order.Order;
-import com.dft.wps.model.order.OrderWrapper;
+import com.dft.wps.model.item.ItemsWrapper;
+import com.dft.wps.model.product.Product;
+import com.dft.wps.model.product.ProductsWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.apache.http.HttpHeaders;
@@ -35,65 +39,92 @@ public class WpsSDK {
         client = HttpClient.newHttpClient();
     }
 
-    public List<Item> getItems() {
-        return getPaginatedItem(null);
+    @SneakyThrows
+    public List<Attribute> getPaginatedAttributeValues(String cursor, String path) {
+        List<Attribute> attributeList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "500")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<AttributesWrapper> handler = new JsonBodyHandler<>(AttributesWrapper.class);
+            AttributesWrapper attributesWrapper = getRequestWrapped(request, handler);
+            attributeList.addAll(attributesWrapper.getData());
+            cursor = attributesWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return attributeList;
     }
 
     @SneakyThrows
-    public List<Item> getPaginatedItem(String cursor) {
+    public List<Item> getPaginatedItem(String cursor, String path) {
         List<Item> itemList = new ArrayList<>();
         do {
-            URIBuilder uriBuilder = baseUrl(new URIBuilder(), "/items")
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
                 .addParameter("page[size]", "10000")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
-            HttpResponse.BodyHandler<ItemWrapper> handler = new JsonBodyHandler<>(ItemWrapper.class);
-            ItemWrapper itemWrapper = getRequestWrapped(request, handler);
-            itemList.addAll(itemWrapper.getData());
-            cursor = itemWrapper.getMeta().getCursor().getNext();
+            HttpResponse.BodyHandler<ItemsWrapper> handler = new JsonBodyHandler<>(ItemsWrapper.class);
+            ItemsWrapper itemsWrapper = getRequestWrapped(request, handler);
+            itemList.addAll(itemsWrapper.getData());
+            cursor = itemsWrapper.getMeta().getCursor().getNext();
         } while (cursor != null);
         return itemList;
     }
 
     @SneakyThrows
-    public List<Order> getOrders(String fromDate, String toDate) {
-        URIBuilder uriBuilder = baseUrl(new URIBuilder(), "/orders")
-            .addParameter("from_date", fromDate)
-            .addParameter("to_date", toDate);
-
-        HttpRequest request = get(uriBuilder);
-        HttpResponse.BodyHandler<OrderWrapper> handler = new JsonBodyHandler<>(OrderWrapper.class);
-        OrderWrapper orderWrapper = getRequestWrapped(request, handler);
-        return orderWrapper.getData();
-    }
-
-    public List<Attribute> getAttributeKeys() {
-        return getPaginatedAttributeValues(null, "attributekeys");
-    }
-
-    public List<Attribute> getAttributeValues() {
-        return getPaginatedAttributeValues(null, "attributevalues");
-    }
-
-    @SneakyThrows
-    public List<Attribute> getPaginatedAttributeValues(String cursor, String path) {
-        List<Attribute> attributeList = new ArrayList<>();
+    public List<Product> getPaginatedProducts(String cursor, String path) {
+        List<Product> productList = new ArrayList<>();
         do {
-            URIBuilder uriBuilder = baseUrl(new URIBuilder(), "/" + path)
-                .addParameter("page[size]", "500")
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
-            HttpResponse.BodyHandler<AttributeWrapper> handler = new JsonBodyHandler<>(AttributeWrapper.class);
-            AttributeWrapper attributeWrapper = getRequestWrapped(request, handler);
-            attributeList.addAll(attributeWrapper.getData());
-            cursor = attributeWrapper.getMeta().getCursor().getNext();
+            HttpResponse.BodyHandler<ProductsWrapper> handler = new JsonBodyHandler<>(ProductsWrapper.class);
+            ProductsWrapper productsWrapper = getRequestWrapped(request, handler);
+            productList.addAll(productsWrapper.getData());
+            cursor = productsWrapper.getMeta().getCursor().getNext();
         } while (cursor != null);
-        return attributeList;
+        return productList;
     }
 
-    private URIBuilder baseUrl(URIBuilder uriBuilder, String path) {
+    @SneakyThrows
+    public List<Image> getPaginatedImages(String cursor, String path) {
+        List<Image> imageList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<ImagesWrapper> handler = new JsonBodyHandler<>(ImagesWrapper.class);
+            ImagesWrapper imagesWrapper = getRequestWrapped(request, handler);
+            imageList.addAll(imagesWrapper.getData());
+            cursor = imagesWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return imageList;
+    }
+
+    @SneakyThrows
+    public List<Block> getPaginatedBlocks(String cursor, String path) {
+        List<Block> blockList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<BlocksWrapper> handler = new JsonBodyHandler<>(BlocksWrapper.class);
+            BlocksWrapper blocksWrapper = getRequestWrapped(request, handler);
+            blockList.addAll(blocksWrapper.getData());
+            cursor = blocksWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return blockList;
+    }
+
+    protected URIBuilder baseUrl(URIBuilder uriBuilder, String path) {
         return uriBuilder
             .setScheme("https")
             .setHost("api.wps-inc.com")
@@ -101,7 +132,7 @@ public class WpsSDK {
     }
 
     @SneakyThrows
-    private HttpRequest get(URIBuilder uriBuilder) {
+    protected HttpRequest get(URIBuilder uriBuilder) {
         return HttpRequest.newBuilder(uriBuilder.build())
             .header(HttpHeaders.AUTHORIZATION, "Bearer " + this.accessToken)
             .GET()
