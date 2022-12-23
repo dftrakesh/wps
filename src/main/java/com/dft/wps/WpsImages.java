@@ -2,6 +2,7 @@ package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.block.Block;
+import com.dft.wps.model.brand.Brand;
 import com.dft.wps.model.image.Image;
 import com.dft.wps.model.image.ImageWrapper;
 import com.dft.wps.model.item.Item;
@@ -46,6 +47,10 @@ public class WpsImages extends WpsSDK {
 
     public List<Product> getProductsByImage(Integer id) {
         return getPaginatedProducts(null, "/images/" + id + "/products");
+    }
+
+    public List<Brand> getBrandsByImage(Integer id) {
+        return getPaginatedBrands(null, "/images/" + id + "/brands");
     }
 
 }
