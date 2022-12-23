@@ -1,4 +1,4 @@
-package com.dft.wps.model.attribute;
+package com.dft.wps.model.block;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AttributeWrapper {
+public class BlockWrapper {
 
-    private Attribute data;
+    private Block data;
 }
