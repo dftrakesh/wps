@@ -1,7 +1,9 @@
 package com.dft.wps.model.features;
 
+import com.dft.wps.mapper.DateDeserializer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
@@ -17,6 +19,8 @@ public class Feature {
     private String iconId;
     private Integer sort;
     private String name;
+    @JsonDeserialize(using = DateDeserializer.class)
     private LocalDateTime createdAt;
+    @JsonDeserialize(using = DateDeserializer.class)
     private LocalDateTime updatedAt;
 }
