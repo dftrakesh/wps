@@ -15,6 +15,8 @@ import com.dft.wps.model.features.Feature;
 import com.dft.wps.model.features.FeaturesWrapper;
 import com.dft.wps.model.image.Image;
 import com.dft.wps.model.image.ImagesWrapper;
+import com.dft.wps.model.inventory.Inventory;
+import com.dft.wps.model.inventory.InventorysWrapper;
 import com.dft.wps.model.item.Item;
 import com.dft.wps.model.item.ItemsWrapper;
 import com.dft.wps.model.product.Product;
@@ -26,7 +28,6 @@ import lombok.SneakyThrows;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.utils.URIBuilder;
-
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -198,6 +199,24 @@ public class WpsSDK {
             cursor = featuresWrapper.getMeta().getCursor().getNext();
         } while (cursor != null);
         return featureList;
+    }
+
+    @SneakyThrows
+    public List<Inventory> getPaginatedInventory(String cursor, String path) {
+        List<Inventory> inventoryList = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path).addParameter("page[size]", "10000")
+                                                                   .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<InventorysWrapper> handler = new JsonBodyHandler<>(InventorysWrapper.class);
+            InventorysWrapper inventorysWrapper = getRequestWrapped(request, handler);
+            inventoryList.addAll(inventorysWrapper.getData());
+            cursor = inventorysWrapper.getMeta()
+                                      .getCursor()
+                                      .getNext();
+        } while (cursor != null);
+        return inventoryList;
     }
 
     protected URIBuilder baseUrl(URIBuilder uriBuilder, String path) {
