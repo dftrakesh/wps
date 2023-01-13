@@ -237,10 +237,15 @@ public class WpsSDK {
     @SneakyThrows
     public <T> T getRequestWrapped(HttpRequest request, HttpResponse.BodyHandler<T> handler) {
 
-        return client
-            .sendAsync(request, handler)
-            .thenComposeAsync(response -> handleUnknownError(client, request, handler, response))
-            .get();
+        try {
+            return client.sendAsync(request, handler)
+                .thenComposeAsync(response -> tryResend(client, request, handler, response, 1))
+                .get()
+                .body();
+        } catch (Exception exception) {
+            Thread.sleep(TIME_OUT_DURATION);
+            return getRequestWrapped(request, handler);
+        }
     }
 
     @SneakyThrows
