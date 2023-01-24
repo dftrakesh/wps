@@ -21,6 +21,8 @@ import com.dft.wps.model.item.Item;
 import com.dft.wps.model.item.ItemsWrapper;
 import com.dft.wps.model.product.Product;
 import com.dft.wps.model.product.ProductsWrapper;
+import com.dft.wps.model.taxonomyterm.TaxonomyTerm;
+import com.dft.wps.model.taxonomyterm.TaxonomyTermsWrapper;
 import com.dft.wps.model.vehicle.Vehicle;
 import com.dft.wps.model.vehicle.VehiclesWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,6 +65,23 @@ public class WpsSDK {
             cursor = attributesWrapper.getMeta().getCursor().getNext();
         } while (cursor != null);
         return attributeList;
+    }
+
+    @SneakyThrows
+    public List<TaxonomyTerm> getPaginatedTaxonomyTerms(String cursor, String path) {
+        List<TaxonomyTerm> taxonomyTerms = new ArrayList<>();
+        do {
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
+                .addParameter("page[size]", "10000")
+                .addParameter("page[cursor]", cursor);
+
+            HttpRequest request = get(uriBuilder);
+            HttpResponse.BodyHandler<TaxonomyTermsWrapper> handler = new JsonBodyHandler<>(TaxonomyTermsWrapper.class);
+            TaxonomyTermsWrapper taxonomyTermsWrapper = getRequestWrapped(request, handler);
+            taxonomyTerms.addAll(taxonomyTermsWrapper.getData());
+            cursor = taxonomyTermsWrapper.getMeta().getCursor().getNext();
+        } while (cursor != null);
+        return taxonomyTerms;
     }
 
     @SneakyThrows
