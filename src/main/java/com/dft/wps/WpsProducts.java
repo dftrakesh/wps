@@ -7,6 +7,7 @@ import com.dft.wps.model.image.Image;
 import com.dft.wps.model.item.Item;
 import com.dft.wps.model.product.Product;
 import com.dft.wps.model.product.ProductWrapper;
+import com.dft.wps.model.taxonomyterm.TaxonomyTerm;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
@@ -55,5 +56,9 @@ public class WpsProducts extends WpsSDK {
 
     public List<Item> getItemsByProductId(Integer id) {
         return getPaginatedItem(null, "/products/" + id + "/items");
+    }
+
+    public List<TaxonomyTerm> getTaxonomyTermsByProductId(Integer id) {
+        return getPaginatedTaxonomyTerms(null, "/products/" + id + "/taxonomyterms");
     }
 }
