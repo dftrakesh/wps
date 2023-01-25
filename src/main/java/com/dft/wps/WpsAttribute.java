@@ -47,7 +47,7 @@ public class WpsAttribute extends WpsSDK {
     }
 
     public List<Product> getProductsByAttributeKey(Integer id) {
-        return getPaginatedProducts(null, "/attributevalues/" + id + "/products");
+        return getPaginatedProducts(null, "/attributevalues/" + id + "/products", null);
 
     }
 

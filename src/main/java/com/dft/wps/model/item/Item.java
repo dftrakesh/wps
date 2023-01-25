@@ -40,4 +40,5 @@ public class Item {
     private LocalDateTime updatedAt;
     @JsonDeserialize(using = DateDeserializer.class)
     private LocalDateTime publishedAt;
+    private ItemImagesWrapper images;
 }

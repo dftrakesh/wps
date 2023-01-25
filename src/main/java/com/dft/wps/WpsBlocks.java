@@ -40,7 +40,7 @@ public class WpsBlocks extends WpsSDK {
     }
 
     public List<Product> getProductsByBlockId(String id) {
-        return getPaginatedProducts(null, "/blocks/" + id + "/products");
+        return getPaginatedProducts(null, "/blocks/" + id + "/products", null);
     }
 
 }
