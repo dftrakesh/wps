@@ -28,5 +28,7 @@ public class Product {
     private LocalDateTime createdAt;
     @JsonDeserialize(using = DateDeserializer.class)
     private LocalDateTime updatedAt;
+    private ProductImagesWrapper images;
     private ProductItems items;
+    private ProductTaxonomyTermsWrapper taxonomyterms;
 }
