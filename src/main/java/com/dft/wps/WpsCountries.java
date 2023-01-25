@@ -4,6 +4,7 @@ import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.country.Country;
 import com.dft.wps.model.country.CountryWrapper;
 import com.dft.wps.model.item.Item;
+import com.dft.wps.model.item.ItemsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
@@ -17,7 +18,7 @@ public class WpsCountries extends WpsSDK {
     }
 
     public List<Country> getCountries() {
-        return getPaginatedCountries(null, "/countries");
+        return getPaginatedCountries("/countries");
     }
 
     public Country getCountryById(Integer id) {
@@ -30,10 +31,10 @@ public class WpsCountries extends WpsSDK {
     }
 
     public List<Country> getCountriesByIdList(String ids) {
-        return getPaginatedCountries(null, "/countries/" + ids);
+        return getPaginatedCountries( "/countries/" + ids);
     }
 
-    public List<Item> getItemsByCountryId(Integer id) {
-        return getPaginatedItem(null, "/countries/" + id + "/items");
+    public ItemsWrapper getItemsByCountryId(Integer id) {
+        return getPaginatedItem("/countries/" + id + "/items");
     }
 }

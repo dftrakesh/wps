@@ -5,6 +5,7 @@ import com.dft.wps.model.block.Block;
 import com.dft.wps.model.block.BlockWrapper;
 import com.dft.wps.model.image.Image;
 import com.dft.wps.model.product.Product;
+import com.dft.wps.model.product.ProductsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
@@ -19,7 +20,7 @@ public class WpsBlocks extends WpsSDK {
     }
 
     public List<Block> getBlocks() {
-        return getPaginatedBlocks(null, "/blocks");
+        return getPaginatedBlocks("/blocks");
     }
 
     public Block getBlockById(String id) {
@@ -32,15 +33,15 @@ public class WpsBlocks extends WpsSDK {
     }
 
     public List<Block> getBlockByIdList(String ids) {
-        return getPaginatedBlocks(null, "/blocks/" + ids);
+        return getPaginatedBlocks("/blocks/" + ids);
     }
 
     public List<Image> getImagesByBlockId(String id) {
-        return getPaginatedImages(null, "/blocks/" + id + "/images");
+        return getPaginatedImages("/blocks/" + id + "/images");
     }
 
-    public List<Product> getProductsByBlockId(String id) {
-        return getPaginatedProducts(null, "/blocks/" + id + "/products", null);
+    public ProductsWrapper getProductsByBlockId(String id) {
+        return getPaginatedProducts( "/blocks/" + id + "/products");
     }
 
 }

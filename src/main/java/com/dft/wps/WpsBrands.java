@@ -5,6 +5,7 @@ import com.dft.wps.model.brand.Brand;
 import com.dft.wps.model.brand.BrandWrapper;
 import com.dft.wps.model.image.Image;
 import com.dft.wps.model.item.Item;
+import com.dft.wps.model.item.ItemsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
@@ -19,7 +20,7 @@ public class WpsBrands extends WpsSDK {
     }
 
     public List<Brand> getBrands() {
-        return getPaginatedBrands(null, "/brands");
+        return getPaginatedBrands("/brands");
     }
 
     public Brand getBrandById(Integer id) {
@@ -32,14 +33,14 @@ public class WpsBrands extends WpsSDK {
     }
 
     public List<Brand> getBrandsByIdList(String ids) {
-        return getPaginatedBrands(null, "/brands/" + ids);
+        return getPaginatedBrands("/brands/" + ids);
     }
 
     public List<Image> getImagesByBrandId(Integer id) {
-        return getPaginatedImages(null, "/brands/" + id + "/images");
+        return getPaginatedImages("/brands/" + id + "/images");
     }
 
-    public List<Item> getItemsByBrandId(Integer id) {
-        return getPaginatedItem(null, "/brands/" + id + "/items");
+    public ItemsWrapper getItemsByBrandId(Integer id) {
+        return getPaginatedItem("/brands/" + id + "/items");
     }
 }

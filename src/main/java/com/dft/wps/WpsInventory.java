@@ -4,6 +4,7 @@ import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.inventory.Inventory;
 import com.dft.wps.model.inventory.InventoryWrapper;
 import org.apache.http.client.utils.URIBuilder;
+
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -15,7 +16,7 @@ public class WpsInventory extends WpsSDK {
     }
 
     public List<Inventory> getInventories() {
-        return getPaginatedInventory(null, "/inventory");
+        return getPaginatedInventory("/inventory");
     }
 
     public Inventory getInventoryById(Integer id) {
@@ -28,6 +29,6 @@ public class WpsInventory extends WpsSDK {
     }
 
     public List<Inventory> getInventoriesByIdList(String ids) {
-        return getPaginatedInventory(null, "/inventory/" + ids);
+        return getPaginatedInventory("/inventory/" + ids);
     }
 }

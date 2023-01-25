@@ -2,7 +2,9 @@ package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.attribute.Attribute;
+import com.dft.wps.model.attribute.AttributesWrapper;
 import com.dft.wps.model.item.Item;
+import com.dft.wps.model.item.ItemsWrapper;
 import com.dft.wps.model.vehicle.Vehicle;
 import com.dft.wps.model.vehicle.VehicleWrapper;
 import org.apache.http.client.utils.URIBuilder;
@@ -19,7 +21,7 @@ public class WpsVehicles extends WpsSDK {
     }
 
     public List<Vehicle> getVehicles() {
-        return getPaginatedVehicles(null, "/vehicles");
+        return getPaginatedVehicles("/vehicles");
     }
 
     public Vehicle getVehicleById(Integer id) {
@@ -32,14 +34,14 @@ public class WpsVehicles extends WpsSDK {
     }
 
     public List<Vehicle> getVehiclesByIdList(String ids) {
-        return getPaginatedVehicles(null, "/vehicles/" + ids);
+        return getPaginatedVehicles("/vehicles/" + ids);
     }
 
-    public List<Attribute> getAttributeValuesByVehicleId(Integer id) {
-        return getPaginatedAttributeValues(null, "/vehicles/" + id + "/attributevalues");
+    public AttributesWrapper getAttributeValuesByVehicleId(Integer id) {
+        return getPaginatedAttributeValues("/vehicles/" + id + "/attributevalues");
     }
 
-    public List<Item> getItemsByVehicleId(Integer id) {
-        return getPaginatedItem(null, "/products/" + id + "/items");
+    public ItemsWrapper getItemsByVehicleId(Integer id) {
+        return getPaginatedItem("/products/" + id + "/items");
     }
 }
