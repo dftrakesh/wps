@@ -34,6 +34,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -55,7 +56,7 @@ public class WpsSDK {
         List<Attribute> attributeList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "500")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -72,7 +73,7 @@ public class WpsSDK {
         List<TaxonomyTerm> taxonomyTerms = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -89,7 +90,7 @@ public class WpsSDK {
         List<Item> itemList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -102,12 +103,18 @@ public class WpsSDK {
     }
 
     @SneakyThrows
-    public List<Product> getPaginatedProducts(String cursor, String path) {
+    public List<Product> getPaginatedProducts(String cursor,
+                                              String path,
+                                              HashMap<String, String> params) {
         List<Product> productList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
+
+            if (params != null) {
+                params.forEach(uriBuilder::addParameter);
+            }
 
             HttpRequest request = get(uriBuilder);
             HttpResponse.BodyHandler<ProductsWrapper> handler = new JsonBodyHandler<>(ProductsWrapper.class);
@@ -123,7 +130,7 @@ public class WpsSDK {
         List<Image> imageList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -140,7 +147,7 @@ public class WpsSDK {
         List<Block> blockList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -157,7 +164,7 @@ public class WpsSDK {
         List<Vehicle> vehicleList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -174,7 +181,7 @@ public class WpsSDK {
         List<Brand> brandList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -191,7 +198,7 @@ public class WpsSDK {
         List<Country> countryList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -208,7 +215,7 @@ public class WpsSDK {
         List<Feature> featureList = new ArrayList<>();
         do {
             URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
-                .addParameter("page[size]", "10000")
+                .addParameter("page[size]", "250")
                 .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
@@ -224,8 +231,8 @@ public class WpsSDK {
     public List<Inventory> getPaginatedInventory(String cursor, String path) {
         List<Inventory> inventoryList = new ArrayList<>();
         do {
-            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path).addParameter("page[size]", "10000")
-                                                                   .addParameter("page[cursor]", cursor);
+            URIBuilder uriBuilder = baseUrl(new URIBuilder(), path).addParameter("page[size]", "250")
+                .addParameter("page[cursor]", cursor);
 
             HttpRequest request = get(uriBuilder);
             HttpResponse.BodyHandler<InventorysWrapper> handler = new JsonBodyHandler<>(InventorysWrapper.class);

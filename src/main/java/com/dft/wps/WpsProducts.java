@@ -12,6 +12,7 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
 
 public class WpsProducts extends WpsSDK {
@@ -22,7 +23,11 @@ public class WpsProducts extends WpsSDK {
     }
 
     public List<Product> getProducts() {
-        return getPaginatedProducts(null, "/products");
+        return getPaginatedProducts(null, "/products", null);
+    }
+
+    public List<Product> getProducts(HashMap<String, String> params) {
+        return getPaginatedProducts(null, "/products", params);
     }
 
     public Product getProductById(Integer id) {
@@ -35,7 +40,7 @@ public class WpsProducts extends WpsSDK {
     }
 
     public List<Product> getProductsByIdList(String ids) {
-        return getPaginatedProducts(null, "/products/" + ids);
+        return getPaginatedProducts(null, "/products/" + ids, null);
     }
 
     public List<Attribute> getAttributeKeysByProductId(Integer id) {

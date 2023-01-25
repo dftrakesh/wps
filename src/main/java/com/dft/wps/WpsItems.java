@@ -44,6 +44,6 @@ public class WpsItems extends WpsSDK {
     }
 
     public List<Product> getProductsByItemId(Integer id) {
-        return getPaginatedProducts(null, "/items/" + id + "/products");
+        return getPaginatedProducts(null, "/items/" + id + "/products", null);
     }
 }

@@ -46,7 +46,7 @@ public class WpsImages extends WpsSDK {
     }
 
     public List<Product> getProductsByImage(Integer id) {
-        return getPaginatedProducts(null, "/images/" + id + "/products");
+        return getPaginatedProducts(null, "/images/" + id + "/products", null);
     }
 
     public List<Brand> getBrandsByImage(Integer id) {

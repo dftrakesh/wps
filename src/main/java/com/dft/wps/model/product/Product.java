@@ -28,4 +28,5 @@ public class Product {
     private LocalDateTime createdAt;
     @JsonDeserialize(using = DateDeserializer.class)
     private LocalDateTime updatedAt;
+    private ProductItems items;
 }
