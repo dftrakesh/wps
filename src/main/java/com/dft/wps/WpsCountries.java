@@ -1,15 +1,14 @@
 package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
+import com.dft.wps.model.country.CountriesWrapper;
 import com.dft.wps.model.country.Country;
 import com.dft.wps.model.country.CountryWrapper;
-import com.dft.wps.model.item.Item;
 import com.dft.wps.model.item.ItemsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class WpsCountries extends WpsSDK {
 
@@ -17,7 +16,7 @@ public class WpsCountries extends WpsSDK {
         super(accessToken);
     }
 
-    public List<Country> getCountries() {
+    public CountriesWrapper getCountries() {
         return getPaginatedCountries("/countries");
     }
 
@@ -30,7 +29,7 @@ public class WpsCountries extends WpsSDK {
         return countryWrapper.getData();
     }
 
-    public List<Country> getCountriesByIdList(String ids) {
+    public CountriesWrapper getCountriesByIdList(String ids) {
         return getPaginatedCountries( "/countries/" + ids);
     }
 

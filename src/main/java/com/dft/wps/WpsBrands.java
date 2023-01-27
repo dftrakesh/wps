@@ -3,14 +3,13 @@ package com.dft.wps;
 import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.brand.Brand;
 import com.dft.wps.model.brand.BrandWrapper;
-import com.dft.wps.model.image.Image;
-import com.dft.wps.model.item.Item;
+import com.dft.wps.model.brand.BrandsWrapper;
+import com.dft.wps.model.image.ImagesWrapper;
 import com.dft.wps.model.item.ItemsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class WpsBrands extends WpsSDK {
 
@@ -19,7 +18,7 @@ public class WpsBrands extends WpsSDK {
         super(accessToken);
     }
 
-    public List<Brand> getBrands() {
+    public BrandsWrapper getBrands() {
         return getPaginatedBrands("/brands");
     }
 
@@ -32,11 +31,11 @@ public class WpsBrands extends WpsSDK {
         return brandWrapper.getData();
     }
 
-    public List<Brand> getBrandsByIdList(String ids) {
+    public BrandsWrapper getBrandsByIdList(String ids) {
         return getPaginatedBrands("/brands/" + ids);
     }
 
-    public List<Image> getImagesByBrandId(Integer id) {
+    public ImagesWrapper getImagesByBrandId(Integer id) {
         return getPaginatedImages("/brands/" + id + "/images");
     }
 

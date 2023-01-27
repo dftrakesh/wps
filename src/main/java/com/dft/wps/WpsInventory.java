@@ -3,11 +3,11 @@ package com.dft.wps;
 import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.inventory.Inventory;
 import com.dft.wps.model.inventory.InventoryWrapper;
+import com.dft.wps.model.inventory.InventorysWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class WpsInventory extends WpsSDK {
 
@@ -15,7 +15,7 @@ public class WpsInventory extends WpsSDK {
         super(accessToken);
     }
 
-    public List<Inventory> getInventories() {
+    public InventorysWrapper getInventories() {
         return getPaginatedInventory("/inventory");
     }
 
@@ -28,7 +28,7 @@ public class WpsInventory extends WpsSDK {
         return inventoryWrapper.getData();
     }
 
-    public List<Inventory> getInventoriesByIdList(String ids) {
+    public InventorysWrapper getInventoriesByIdList(String ids) {
         return getPaginatedInventory("/inventory/" + ids);
     }
 }

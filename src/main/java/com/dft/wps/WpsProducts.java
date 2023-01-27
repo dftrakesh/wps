@@ -1,23 +1,19 @@
 package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
-import com.dft.wps.model.attribute.Attribute;
 import com.dft.wps.model.attribute.AttributesWrapper;
-import com.dft.wps.model.block.Block;
-import com.dft.wps.model.image.Image;
-import com.dft.wps.model.item.Item;
+import com.dft.wps.model.block.BlocksWrapper;
+import com.dft.wps.model.image.ImagesWrapper;
 import com.dft.wps.model.item.ItemsWrapper;
 import com.dft.wps.model.product.Product;
 import com.dft.wps.model.product.ProductWrapper;
 import com.dft.wps.model.product.ProductsWrapper;
-import com.dft.wps.model.taxonomyterm.TaxonomyTerm;
 import com.dft.wps.model.taxonomyterm.TaxonomyTermsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
-import java.util.List;
 
 public class WpsProducts extends WpsSDK {
 
@@ -55,11 +51,11 @@ public class WpsProducts extends WpsSDK {
         return getPaginatedAttributeValues("/products/" + id + "/attributevalues");
     }
 
-    public List<Block> getBlocksByProductId(Integer id) {
+    public BlocksWrapper getBlocksByProductId(Integer id) {
         return getPaginatedBlocks("/products/" + id + "/blocks");
     }
 
-    public List<Image> getImagesByProductId(Integer id) {
+    public ImagesWrapper getImagesByProductId(Integer id) {
         return getPaginatedImages("/products/" + id + "/images");
     }
 

@@ -1,19 +1,16 @@
 package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
-import com.dft.wps.model.attribute.Attribute;
 import com.dft.wps.model.attribute.AttributesWrapper;
-import com.dft.wps.model.image.Image;
+import com.dft.wps.model.image.ImagesWrapper;
 import com.dft.wps.model.item.Item;
 import com.dft.wps.model.item.ItemWrapper;
 import com.dft.wps.model.item.ItemsWrapper;
-import com.dft.wps.model.product.Product;
 import com.dft.wps.model.product.ProductsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class WpsItems extends WpsSDK {
 
@@ -42,7 +39,7 @@ public class WpsItems extends WpsSDK {
         return getPaginatedAttributeValues("/items/" + id + "/attributevalues");
     }
 
-    public List<Image> getImagesByItemId(Integer id) {
+    public ImagesWrapper getImagesByItemId(Integer id) {
         return getPaginatedImages("/items/" + id + "/images");
     }
 

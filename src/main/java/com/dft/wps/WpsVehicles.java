@@ -1,17 +1,15 @@
 package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
-import com.dft.wps.model.attribute.Attribute;
 import com.dft.wps.model.attribute.AttributesWrapper;
-import com.dft.wps.model.item.Item;
 import com.dft.wps.model.item.ItemsWrapper;
 import com.dft.wps.model.vehicle.Vehicle;
 import com.dft.wps.model.vehicle.VehicleWrapper;
+import com.dft.wps.model.vehicle.VehiclesWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class WpsVehicles extends WpsSDK {
 
@@ -20,7 +18,7 @@ public class WpsVehicles extends WpsSDK {
         super(accessToken);
     }
 
-    public List<Vehicle> getVehicles() {
+    public VehiclesWrapper getVehicles() {
         return getPaginatedVehicles("/vehicles");
     }
 
@@ -33,7 +31,7 @@ public class WpsVehicles extends WpsSDK {
         return vehicleWrapper.getData();
     }
 
-    public List<Vehicle> getVehiclesByIdList(String ids) {
+    public VehiclesWrapper getVehiclesByIdList(String ids) {
         return getPaginatedVehicles("/vehicles/" + ids);
     }
 
