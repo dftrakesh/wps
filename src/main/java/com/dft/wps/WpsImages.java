@@ -1,17 +1,17 @@
 package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
-import com.dft.wps.model.block.Block;
-import com.dft.wps.model.brand.Brand;
+import com.dft.wps.model.block.BlocksWrapper;
+import com.dft.wps.model.brand.BrandsWrapper;
 import com.dft.wps.model.image.Image;
 import com.dft.wps.model.image.ImageWrapper;
-import com.dft.wps.model.item.Item;
-import com.dft.wps.model.product.Product;
+import com.dft.wps.model.image.ImagesWrapper;
+import com.dft.wps.model.item.ItemsWrapper;
+import com.dft.wps.model.product.ProductsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class WpsImages extends WpsSDK {
 
@@ -20,8 +20,8 @@ public class WpsImages extends WpsSDK {
         super(accessToken);
     }
 
-    public List<Image> getImages() {
-        return getPaginatedImages(null, "/images");
+    public ImagesWrapper getImages() {
+        return getPaginatedImages("/images");
     }
 
     public Image getImageById(Integer id) {
@@ -33,24 +33,24 @@ public class WpsImages extends WpsSDK {
         return imageWrapper.getData();
     }
 
-    public List<Image> getImageByIdList(String ids) {
-        return getPaginatedImages(null, "/images/" + ids);
+    public ImagesWrapper getImageByIdList(String ids) {
+        return getPaginatedImages("/images/" + ids);
     }
 
-    public List<Block> getBlocksByImage(Integer id) {
-        return getPaginatedBlocks(null, "/images/" + id + "/blocks");
+    public BlocksWrapper getBlocksByImage(Integer id) {
+        return getPaginatedBlocks("/images/" + id + "/blocks");
     }
 
-    public List<Item> getItemsByImage(Integer id) {
-        return getPaginatedItem(null, "/images/" + id + "items");
+    public ItemsWrapper getItemsByImage(Integer id) {
+        return getPaginatedItem("/images/" + id + "items");
     }
 
-    public List<Product> getProductsByImage(Integer id) {
-        return getPaginatedProducts(null, "/images/" + id + "/products", null);
+    public ProductsWrapper getProductsByImage(Integer id) {
+        return getPaginatedProducts("/images/" + id + "/products");
     }
 
-    public List<Brand> getBrandsByImage(Integer id) {
-        return getPaginatedBrands(null, "/images/" + id + "/brands");
+    public BrandsWrapper getBrandsByImage(Integer id) {
+        return getPaginatedBrands("/images/" + id + "/brands");
     }
 
 }

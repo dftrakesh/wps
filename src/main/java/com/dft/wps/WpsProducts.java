@@ -1,19 +1,19 @@
 package com.dft.wps;
 
 import com.dft.wps.handler.JsonBodyHandler;
-import com.dft.wps.model.attribute.Attribute;
-import com.dft.wps.model.block.Block;
-import com.dft.wps.model.image.Image;
-import com.dft.wps.model.item.Item;
+import com.dft.wps.model.attribute.AttributesWrapper;
+import com.dft.wps.model.block.BlocksWrapper;
+import com.dft.wps.model.image.ImagesWrapper;
+import com.dft.wps.model.item.ItemsWrapper;
 import com.dft.wps.model.product.Product;
 import com.dft.wps.model.product.ProductWrapper;
-import com.dft.wps.model.taxonomyterm.TaxonomyTerm;
+import com.dft.wps.model.product.ProductsWrapper;
+import com.dft.wps.model.taxonomyterm.TaxonomyTermsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
-import java.util.List;
 
 public class WpsProducts extends WpsSDK {
 
@@ -22,12 +22,12 @@ public class WpsProducts extends WpsSDK {
         super(accessToken);
     }
 
-    public List<Product> getProducts() {
-        return getPaginatedProducts(null, "/products", null);
+    public ProductsWrapper getProducts() {
+        return getPaginatedProducts( "/products");
     }
 
-    public List<Product> getProducts(HashMap<String, String> params) {
-        return getPaginatedProducts(null, "/products", params);
+    public ProductsWrapper getProducts(HashMap<String, String> params) {
+        return getPaginatedProducts("/products", params);
     }
 
     public Product getProductById(Integer id) {
@@ -39,31 +39,31 @@ public class WpsProducts extends WpsSDK {
         return productWrapper.getData();
     }
 
-    public List<Product> getProductsByIdList(String ids) {
-        return getPaginatedProducts(null, "/products/" + ids, null);
+    public ProductsWrapper getProductsByIdList(String ids) {
+        return getPaginatedProducts("/products/" + ids);
     }
 
-    public List<Attribute> getAttributeKeysByProductId(Integer id) {
-        return getPaginatedAttributeValues(null, "/products/" + id + "/attributekeys");
+    public AttributesWrapper getAttributeKeysByProductId(Integer id) {
+        return getPaginatedAttributeValues( "/products/" + id + "/attributekeys");
     }
 
-    public List<Attribute> getAttributeValuesByProductId(Integer id) {
-        return getPaginatedAttributeValues(null, "/products/" + id + "/attributevalues");
+    public AttributesWrapper getAttributeValuesByProductId(Integer id) {
+        return getPaginatedAttributeValues("/products/" + id + "/attributevalues");
     }
 
-    public List<Block> getBlocksByProductId(Integer id) {
-        return getPaginatedBlocks(null, "/products/" + id + "/blocks");
+    public BlocksWrapper getBlocksByProductId(Integer id) {
+        return getPaginatedBlocks("/products/" + id + "/blocks");
     }
 
-    public List<Image> getImagesByProductId(Integer id) {
-        return getPaginatedImages(null, "/products/" + id + "/images");
+    public ImagesWrapper getImagesByProductId(Integer id) {
+        return getPaginatedImages("/products/" + id + "/images");
     }
 
-    public List<Item> getItemsByProductId(Integer id) {
-        return getPaginatedItem(null, "/products/" + id + "/items");
+    public ItemsWrapper getItemsByProductId(Integer id) {
+        return getPaginatedItem("/products/" + id + "/items");
     }
 
-    public List<TaxonomyTerm> getTaxonomyTermsByProductId(Integer id) {
-        return getPaginatedTaxonomyTerms(null, "/products/" + id + "/taxonomyterms");
+    public TaxonomyTermsWrapper getTaxonomyTermsByProductId(Integer id) {
+        return getPaginatedTaxonomyTerms("/products/" + id + "/taxonomyterms");
     }
 }

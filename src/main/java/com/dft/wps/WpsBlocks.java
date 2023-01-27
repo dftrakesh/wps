@@ -3,13 +3,13 @@ package com.dft.wps;
 import com.dft.wps.handler.JsonBodyHandler;
 import com.dft.wps.model.block.Block;
 import com.dft.wps.model.block.BlockWrapper;
-import com.dft.wps.model.image.Image;
-import com.dft.wps.model.product.Product;
+import com.dft.wps.model.block.BlocksWrapper;
+import com.dft.wps.model.image.ImagesWrapper;
+import com.dft.wps.model.product.ProductsWrapper;
 import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
 public class WpsBlocks extends WpsSDK {
 
@@ -18,8 +18,8 @@ public class WpsBlocks extends WpsSDK {
         super(accessToken);
     }
 
-    public List<Block> getBlocks() {
-        return getPaginatedBlocks(null, "/blocks");
+    public BlocksWrapper getBlocks() {
+        return getPaginatedBlocks("/blocks");
     }
 
     public Block getBlockById(String id) {
@@ -31,16 +31,16 @@ public class WpsBlocks extends WpsSDK {
         return blockWrapper.getData();
     }
 
-    public List<Block> getBlockByIdList(String ids) {
-        return getPaginatedBlocks(null, "/blocks/" + ids);
+    public BlocksWrapper getBlockByIdList(String ids) {
+        return getPaginatedBlocks("/blocks/" + ids);
     }
 
-    public List<Image> getImagesByBlockId(String id) {
-        return getPaginatedImages(null, "/blocks/" + id + "/images");
+    public ImagesWrapper getImagesByBlockId(String id) {
+        return getPaginatedImages("/blocks/" + id + "/images");
     }
 
-    public List<Product> getProductsByBlockId(String id) {
-        return getPaginatedProducts(null, "/blocks/" + id + "/products", null);
+    public ProductsWrapper getProductsByBlockId(String id) {
+        return getPaginatedProducts( "/blocks/" + id + "/products");
     }
 
 }
