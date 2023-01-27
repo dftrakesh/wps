@@ -8,6 +8,7 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 
 public class WpsInventory extends WpsSDK {
 
@@ -17,6 +18,10 @@ public class WpsInventory extends WpsSDK {
 
     public InventorysWrapper getInventories() {
         return getPaginatedInventory("/inventory");
+    }
+
+    public InventorysWrapper getInventories(HashMap<String, String> params) {
+        return getPaginatedInventory("/inventory", params);
     }
 
     public Inventory getInventoryById(Integer id) {

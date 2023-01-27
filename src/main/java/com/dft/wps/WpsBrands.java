@@ -10,6 +10,7 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 
 public class WpsBrands extends WpsSDK {
 
@@ -20,6 +21,10 @@ public class WpsBrands extends WpsSDK {
 
     public BrandsWrapper getBrands() {
         return getPaginatedBrands("/brands");
+    }
+
+    public BrandsWrapper getBrands(HashMap<String, String> params) {
+        return getPaginatedBrands("/brands", params);
     }
 
     public Brand getBrandById(Integer id) {
