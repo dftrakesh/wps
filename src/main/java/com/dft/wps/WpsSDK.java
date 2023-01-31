@@ -114,13 +114,22 @@ public class WpsSDK {
     }
 
     @SneakyThrows
-    public BrandsWrapper getPaginatedBrands(String path) {
+    public BrandsWrapper getPaginatedBrands(String path, HashMap<String, String> params) {
         URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
             .addParameter("page[size]", "250");
+
+        if (params != null) {
+            params.forEach(uriBuilder::addParameter);
+        }
 
         HttpRequest request = get(uriBuilder);
         HttpResponse.BodyHandler<BrandsWrapper> handler = new JsonBodyHandler<>(BrandsWrapper.class);
         return getRequestWrapped(request, handler);
+    }
+
+    @SneakyThrows
+    public BrandsWrapper getPaginatedBrands(String path) {
+        return getPaginatedBrands(path, null);
     }
 
     @SneakyThrows
@@ -144,13 +153,22 @@ public class WpsSDK {
     }
 
     @SneakyThrows
-    public InventorysWrapper getPaginatedInventory(String path) {
+    public InventorysWrapper getPaginatedInventory(String path, HashMap<String, String> params) {
         URIBuilder uriBuilder = baseUrl(new URIBuilder(), path)
             .addParameter("page[size]", "250");
+
+        if (params != null) {
+            params.forEach(uriBuilder::addParameter);
+        }
 
         HttpRequest request = get(uriBuilder);
         HttpResponse.BodyHandler<InventorysWrapper> handler = new JsonBodyHandler<>(InventorysWrapper.class);
         return getRequestWrapped(request, handler);
+    }
+
+    @SneakyThrows
+    public InventorysWrapper getPaginatedInventory(String path) {
+        return getPaginatedInventory(path, null);
     }
 
     protected URIBuilder baseUrl(URIBuilder uriBuilder, String path) {
