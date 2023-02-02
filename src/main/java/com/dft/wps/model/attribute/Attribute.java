@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Attribute {
 
     private Integer id;
-    private String attributekeyId;
+    private Integer attributekeyId;
     private String name;
     private Integer sort;
     @JsonDeserialize(using = DateDeserializer.class)
