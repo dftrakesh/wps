@@ -13,5 +13,5 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ItemInventorysWrapper {
 
-    private List<Inventory> data;
+    private Inventory data;
 }
